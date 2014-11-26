@@ -1,5 +1,8 @@
 package com.romario.misoilab3.gui;
 
+import com.romario.misoilab3.filter.BinaryFilter;
+import com.romario.misoilab3.filter.Gaussian;
+import com.romario.misoilab3.form.Form;
 import com.romario.misoilab3.gui.gbc.GBC;
 
 import javax.imageio.ImageIO;
@@ -21,15 +24,18 @@ public class MyControlPanel extends JPanel {
   private static final int CELL_INSETS = 4;
 
   private final JButton openFileButton = new JButton("Choose File");
+	private final JButton smoothingGaussianButton = new JButton("Smoothing Gaussian");
 
   private final JFileChooser fileChooser = new JFileChooser(new File(this.getClass()
       .getClassLoader().getResource("").getPath()));
 
   private final MyFrame frame;
+	private Form form;
 
   public MyControlPanel(MyFrame frame) {
 
     this.frame = frame;
+		this.form = frame.getForm();
 
     setBackground(Color.LIGHT_GRAY);
     setLayout(new GridBagLayout());
@@ -67,8 +73,8 @@ public class MyControlPanel extends JPanel {
             System.out.println(file);
 
             BufferedImage img = openImage(file);
-            frame.getForm().setSourceBufferedImage(img);
-            frame.getForm().setResultBufferedImage(img);
+            form.setSourceBufferedImage(img);
+            form.setResultBufferedImage(img);
             /* frame.getViewPanel().distributePanels(); */
 
             frame.getViewPanel().repaint();
@@ -77,29 +83,25 @@ public class MyControlPanel extends JPanel {
       }
     });
 
-  }
+	  smoothingGaussianButton.addActionListener(new ActionListener() {
+		  @Override
+		  public void actionPerformed(ActionEvent e) {
+			  Gaussian gaussian = new Gaussian();
+			  gaussian.generateGaussianMatrix(3);
+				//form.setResultBufferedImage(BinaryFilter.bynaryImage(form.getSourceBufferedImage()));
 
-  /*
-   * private int[][] viewImage(BufferedImage image) { int[][] tp = new int[651][400];
-   * 
-   * for(int i = 0; i < image.getWidth(); i++) { for(int j = 0; j < image.getHeight(); j++) {
-   * tp[i][j] = image.getRGB(i, j) & 0XFF; } }
-   * 
-   * return tp; }
-   */
 
-  private void viewArray(int[][] array, int xLength, int yLength) {
-    for (int i = 0; i < xLength; i++) {
-      for (int j = 0; j < yLength; j++) {
-        System.out.print(array[i][j]);
-      }
-      System.out.println();
-    }
+			  frame.getViewPanel().repaint();
+			  System.out.println("end smoothing gaussian");
+		  }
+	  });
+
   }
 
   private void initializeGUI() {
 
     add(openFileButton, new GBC(0, 0).setInsets(CELL_INSETS).setAnchor(GridBagConstraints.WEST));
+	  add(smoothingGaussianButton, new GBC(1, 0).setInsets(CELL_INSETS).setAnchor(GridBagConstraints.WEST));
 
   }
 

@@ -25,7 +25,7 @@ public class MyViewPanel extends JPanel {
 
 		graphics2D = (Graphics2D) g;
 
-		graphics2D.drawImage(form.getResultBufferedImage(), 0, 0, 625, 400, this);
+		graphics2D.drawImage(form.getResultBufferedImage(), 0, 0, 600, 400, this);
 	}
 
 }
