@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * Created by romario on 11/14/14.
  */
-public class BinaryFilter {
+public class BynaryFilter {
 
   public static BufferedImage bynaryImage(BufferedImage image) {
 
@@ -41,8 +41,8 @@ public class BinaryFilter {
         | ((val << FilterConstant.GREEN_VALUE)) | (val);
   }
 
-	public static int colorRGBValue(int r, int g, int b) {
-		return ((b << FilterConstant.ALPHA_VALUE) | (r << FilterConstant.RED_VALUE))
+	public static int colorRGBValue(int r, int g, int b, int alpha) {
+		return ((alpha << FilterConstant.ALPHA_VALUE) | (r << FilterConstant.RED_VALUE))
 				| ((g << FilterConstant.GREEN_VALUE)) | (b);
 	}
 

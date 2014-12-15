@@ -1,7 +1,9 @@
 package com.romario.misoilab3.gui;
 
-import com.romario.misoilab3.filter.BinaryFilter;
+import com.romario.misoilab3.common.BlobDetector;
+import com.romario.misoilab3.filter.BynaryFilter;
 import com.romario.misoilab3.filter.Gaussian;
+import com.romario.misoilab3.filter.ImageConverter;
 import com.romario.misoilab3.form.Form;
 import com.romario.misoilab3.gui.gbc.GBC;
 
@@ -14,7 +16,6 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
 
 /**
  * Created by romario on 11/21/14.
@@ -24,7 +25,7 @@ public class MyControlPanel extends JPanel {
   private static final int CELL_INSETS = 4;
 
   private final JButton openFileButton = new JButton("Choose File");
-	private final JButton smoothingGaussianButton = new JButton("Smoothing Gaussian");
+	private final JButton smoothingGaussianButton = new JButton("Get Blobs");
 
   private final JFileChooser fileChooser = new JFileChooser(new File(this.getClass()
       .getClassLoader().getResource("").getPath()));
@@ -86,9 +87,14 @@ public class MyControlPanel extends JPanel {
 	  smoothingGaussianButton.addActionListener(new ActionListener() {
 		  @Override
 		  public void actionPerformed(ActionEvent e) {
-			  Gaussian gaussian = new Gaussian();
-			  gaussian.generateGaussianMatrix(3);
-				//form.setResultBufferedImage(BinaryFilter.bynaryImage(form.getSourceBufferedImage()));
+			  /*Gaussian gaussian = new Gaussian();*/
+			  //form.setResultBufferedImage(BynaryFilter.bynaryImage(form.getSourceBufferedImage()));
+			  /*form.setResultBufferedImage(
+					  ImageConverter.convertRGBImageToBWImage(form.getSourceBufferedImage()));
+			  form.setResultBufferedImage(gaussian.convertImage(form.getSourceBufferedImage(), Math.exp(1.3)));*/
+
+			  BlobDetector blobDetector = new BlobDetector(form.getSourceBufferedImage());
+			  form.setResultBufferedImage(blobDetector.detectBlobs());
 
 
 			  frame.getViewPanel().repaint();
